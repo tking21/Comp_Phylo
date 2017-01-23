@@ -39,7 +39,6 @@ def translate ( nucDNA ):
 			#identify the index of the codon in the list of nucleotides, use this index to the find the corresponding amino acid in the list AA	
 			codonIndex = nuc.index(codon) 
 			AAseq = AAseq + AA[codonIndex]
-			print(AAseq)
 		elif num >= len(nucDNA): #another instance to signify reaching the end of the sequence
 			print("The corresponding amino acid sequence is " + AAseq) 
 			return(AAseq)
