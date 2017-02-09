@@ -4,17 +4,17 @@ import numpy
 
 #Section 2a
 def between ( min, max ):
-# a function that calculates the factorial of a set of numbers (max to min)
+#a function that calculates the factorial of a set of numbers (max to min)
 	answer = 1
 	for num in range (min, max+1): 
 		# a loop that creates a list of all the number from min to the max number submitted and multiplies each number in the list together
 		answer = answer * num 
 	return (answer)
 	
-#print(between (3, 7)) --> checking to make sure that the function works properly 		
+#print(between (3, 7)) #--> checking to make sure that the function works properly 		
 		
 def binomialA (n, k ):
-#a function that calculates the binomial coefficient without simplification  
+#a function that calculates the binomial coefficient without simplification """
 	#print (str(n) + " choose " + str(k) + " with method A")
 	top = between (1, n)
 	bottom1 = between (1,k)
@@ -27,7 +27,7 @@ def binomialA (n, k ):
 	return (top / totalBottom)
 
 def binomialB (n, k ):
-#a function that calculates the binomial coefficient with simplification 
+#a function that calculates the binomial coefficient with simplification"""
 	#print (str(n) + " choose " + str(k) + " with method B")
 	min = (n-k) +1
 	top = between(min, n)
@@ -37,6 +37,7 @@ def binomialB (n, k ):
 	return (top / bottom)
 
 def binomail_A_Runs ():
+#function used to test the difference in run times between binomialA and binomialB"""
 	startTime = datetime.datetime.now()
 	(binomialA (7,3))
 	(binomialA (43,7))
@@ -50,9 +51,10 @@ def binomail_A_Runs ():
 	(binomialA (54,8))
 	(binomialA (77,23))
 	elapsedTime = datetime.datetime.now() - startTime
-	#print ("Method 2a took " + str(elapsedTime) + " to run.")
+	print ("Method 2a took " + str(elapsedTime) + " to run.")
 	
 def binomail_B_Runs ():
+#function used to test the difference in run times between binomialA and binomialB"""
 	startTime = datetime.datetime.now()
 	binomialB (7,3)
 	binomialB (43,7)
@@ -72,29 +74,29 @@ def binomail_B_Runs ():
 #binomail_B_Runs ()
 
 def pmf (p,n,k):
-#function that calculates the prob mass function 
+#function that calculates the prob mass function (see equation 3.3.5)
 	bin = binomialB (n,k)
 	#print ( bin * pow(p,k) * pow(1-p, n-k))
 	return ( bin * pow(p,k) * pow(1-p, n-k))
 	
-#pmf (0.3 , 7,3)
+#print(pmf (0.3 , 7,3))
 
 #section 2a - part 5
 pVals = numpy.arange(0.1,1.1,0.1)			#generate a list of random numbers that will be used for p values
 kVals = [random.randrange(1,10) for _ in range (10)]		#generate a list of random number that will be used for k values
 
-def discrete (pVals, kVals):
+def sample (pVals, kVals):
 #function makes a empty list (prob), pulls k and p values from the list passed to it, calculates the pmf for corresponding values and saves them to the list prob
 	prob = []
 	for x in range(0,10):
-		prob.append(pmf(pVals[x], 15, kVals[x]))
+		prob.append(pmf(pVals[x], 15, kVals[x])) 
 		
 	#print(prob)
 	return (prob)
 
-print(kVals)
-print(pVals)
-discrete(pVals, kVals)
+#print(kVals)
+#print(pVals)
+#sample(pVals, kVals)
 	
 	
 #section 2b	
@@ -124,32 +126,44 @@ def hillClimb (p, n, k):
 		
 	return (pCurr)
 
-#print(hillClimb (0.3, 20, 4))
+print(hillClimb (0.3, 10, 5))
 
 
 #section 2c
 def LRCut (p):
-	pCurr = p
-	pVals = [random.random() for _ in range (101)]
-	nVals = [random.randrange(51,100) for _ in range (101)]
-	kVals = [random.randrange(1,50) for _ in range (101)]
-	#print(pVals)
-	#print(nVals)
-	#print(kVals)
+#a function that calculates the likelihood ratios for a given group of simulated trails, is passed a known p value"""
+	kVals = [random.randrange(0,5) for _ in range (101)] #generate a list of 100 k values to signify 100 simulated trials
+	n = 5 
+	#say we are doing coin flips, this is a list of the number of successes where each value corresponds to the number of heads(success) from each trail of 5
+	print(kVals)
+
 	
-	lVals = []
-	for x in range (0,101):
-		#print(x)
-		#print(pVals[x])
-		#print(nVals[x])
-		#print(kVals[x])
-		lVals.append(pmf(pVals[x],nVals[x],kVals[x]))
+	MlVals = []
+	LR = [] 
+	
+	for k in kVals:
+		print(k)
+		print(p)
+		print(n)
+		if n == k:
+			MlVals.append(1)
+		elif k == 0:
+			MlVals.append(0)
+		else:	
+			MlVals.append(hillClimb(p,n,k))
+		#print(MlVals)
+	
+	print(MlVals)
 		
-	#print(lVals)
-		
+	for  spot in range (0,101) :
+		LR.append(pmf (MlVals[spot], n,kVals[spot]) /pmf (p,n,kVals[spot]))
+	
+	#print(LR)
+	sortedLR = sorted(LR)
+	#print(sortedLR)
+	print("for this dataset, the LR cutoff is " + str(sortedLR[95]))
+	
 LRCut (0.3)
-
-
 
 
 
