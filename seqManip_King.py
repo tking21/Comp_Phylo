@@ -11,7 +11,9 @@ print("The RNA sequence is "+ RNAseq)
 
 
 def reverseComplement ( seq ):
-#a function that generates the reverse complament of a sequence that is passed to it
+	"""
+	a function that generates the reverse complament of a sequence that is passed to it
+	"""
 	compSeq = seq.replace("a", "x").replace("t", "a").replace("x", "t")
 	compSeq = compSeq.replace("g", "x").replace("c", "g").replace("x", "c")
 	
@@ -28,7 +30,9 @@ AA = ["F", "F", "L", "L", "S", "S", "S", "S", "Y", "Y", "*", "*", "C", "C", "W",
  
 	
 def translate ( nucDNA ):
-#translates DNA to protein using the mitochondrial genetic code
+	"""
+	translates DNA to protein using the mitochondrial genetic code
+	"""
 	AAseq = " "
 	for num in range(0, len(nucDNA), 3): #for and if statements used to extract every 3 bps
 		if num < len(nucDNA):
