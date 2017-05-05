@@ -4,7 +4,9 @@ import numpy
 
 #Section 2a
 def between ( min, max ):
-#a function that calculates the factorial of a set of numbers (max to min)
+	"""
+	a function that calculates the factorial of a set of numbers (max to min)
+	"""
 	answer = 1
 	for num in range (min, max+1): 
 		# a loop that creates a list of all the number from min to the max number submitted and multiplies each number in the list together
@@ -14,7 +16,9 @@ def between ( min, max ):
 #print(between (3, 7)) #--> checking to make sure that the function works properly 		
 		
 def binomialA (n, k ):
-#a function that calculates the binomial coefficient without simplification """
+	"""
+	a function that calculates the binomial coefficient without simplification
+	"""
 	#print (str(n) + " choose " + str(k) + " with method A")
 	top = between (1, n)
 	bottom1 = between (1,k)
@@ -27,7 +31,9 @@ def binomialA (n, k ):
 	return (top / totalBottom)
 
 def binomialB (n, k ):
-#a function that calculates the binomial coefficient with simplification"""
+	"""
+	a function that calculates the binomial coefficient with simplification
+	"""
 	#print (str(n) + " choose " + str(k) + " with method B")
 	min = (n-k) +1
 	top = between(min, n)
@@ -37,7 +43,9 @@ def binomialB (n, k ):
 	return (top / bottom)
 
 def binomail_A_Runs ():
-#function used to test the difference in run times between binomialA and binomialB"""
+	"""
+	function used to test the difference in run times between binomialA and binomialB
+	"""
 	startTime = datetime.datetime.now()
 	(binomialA (7,3))
 	(binomialA (43,7))
@@ -54,7 +62,9 @@ def binomail_A_Runs ():
 	print ("Method 2a took " + str(elapsedTime) + " to run.")
 	
 def binomail_B_Runs ():
-#function used to test the difference in run times between binomialA and binomialB"""
+	"""
+	function used to test the difference in run times between binomialA and binomialB
+	"""
 	startTime = datetime.datetime.now()
 	binomialB (7,3)
 	binomialB (43,7)
@@ -70,11 +80,14 @@ def binomail_B_Runs ():
 	elapsedTime = datetime.datetime.now() - startTime
 	print ("Method 2B took " + str(elapsedTime) + " to run.")
 	
-#binomail_A_Runs () #both functions used to test the speed of each function, used to determine which method was faster
+#both functions used to test the speed of each function, used to determine which method was faster
+#binomail_A_Runs () 
 #binomail_B_Runs ()
 
 def pmf (p,n,k):
-#function that calculates the prob mass function (see equation 3.3.5)
+	"""
+	function that calculates the prob mass function (see equation 3.3.5)
+	"""
 	bin = binomialB (n,k)
 	#print ( bin * pow(p,k) * pow(1-p, n-k))
 	return ( bin * pow(p,k) * pow(1-p, n-k))
@@ -86,13 +99,18 @@ pVals = numpy.arange(0.1,1.1,0.1)			#generate a list of random numbers that will
 kVals = [random.randrange(1,10) for _ in range (10)]		#generate a list of random number that will be used for k values
 
 def sample (pVals, kVals):
-#function makes a empty list (prob), pulls k and p values from the list passed to it, calculates the pmf for corresponding values and saves them to the list prob
-	prob = []
-	for x in range(0,10):
-		prob.append(pmf(pVals[x], 15, kVals[x])) 
-		
-	#print(prob)
-	return (prob)
+	"""
+	samples from an arbitrary discrete distribution
+	"""
+	p = numpy.arange(0.1,1.1)
+	 if p <= pVals[0]:
+	 	return kVals[0]
+	 elif p <= pVals[1]:
+	 	return kVals[1]:
+	 elif p <=  pVals[2]:
+	 	return kVals[2]:
+	 else 
+	 	return kVals[3]:
 
 #print(kVals)
 #print(pVals)
@@ -101,7 +119,9 @@ def sample (pVals, kVals):
 	
 #section 2b	
 def hillClimb (p, n, k):
-#function that determines the ML by climbing up a likelihood surface and return the value of the parameter that maximizes the likelihood
+	"""
+	function that determines the ML by climbing up a likelihood surface and return the value of the parameter that maximizes the likelihood
+	"""
 	diff = 0.1
 	pCurr = p
 	
@@ -131,16 +151,18 @@ print(hillClimb (0.3, 10, 5))
 
 #section 2c
 def LRCut (p):
-#a function that calculates the likelihood ratios for a given group of simulated trails, is passed a known p value"""
+	"""
+	a function that calculates the likelihood ratios for a given group of simulated trails, is passed a known p value
+	"""
+	
+	#generate a list of 100 k values to signify 100 simulated trials
 	kVals = [random.randrange(0,5) for _ in range (101)] #generate a list of 100 k values to signify 100 simulated trials
-	n = 5 
-	#say we are doing coin flips, this is a list of the number of successes where each value corresponds to the number of heads(success) from each trail of 5
 	print(kVals)
-
+	n = 5 	
 	
 	MlVals = []
 	LR = [] 
-	
+	p values using hill climb function  
 	for k in kVals:
 		print(k)
 		print(p)
@@ -150,11 +172,11 @@ def LRCut (p):
 		elif k == 0:
 			MlVals.append(0)
 		else:	
-			MlVals.append(hillClimb(p,n,k))
-		#print(MlVals)
+			MlVals.append(hillClimb(p,n,k)
 	
 	print(MlVals)
-		
+	
+	#calculate likelihood ratios and save to LR list - comapring likelihood values using known p (passed to the function) to those determined using hill climb function 
 	for  spot in range (0,101) :
 		LR.append(pmf (MlVals[spot], n,kVals[spot]) /pmf (p,n,kVals[spot]))
 	
